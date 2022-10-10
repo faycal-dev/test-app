@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "759171197061",
+    "project_id": "nordestone-test",
+    "storage_bucket": "nordestone-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759171197061:android:c1f55357e0143efc5d61ec",
+        "android_client_info": {
+          "package_name": "com.nordstonetestapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759171197061-ih29alotvgm5alreisk47coqglsojhu7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nordstonetestapp",
+            "certificate_hash": "9986bf37a254b940356acaea597e9b9d5b0612a3"
+          }
+        },
+        {
+          "client_id": "759171197061-2st1qb9r60i0nq3dah63o210rp8dpntf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtIUwg94eXINGjjj89unS-SD-Ui_uDw6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759171197061-2st1qb9r60i0nq3dah63o210rp8dpntf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
