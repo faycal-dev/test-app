@@ -16,17 +16,17 @@ import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
 import ProgressBar from 'react-native-progress/Bar';
 
-const UID = auth().currentUser.uid;
+const UID = auth().currentUser?.uid;
 const reference = storage().ref(`/images/${UID}.png`);
 
 const WIDTH = Dimensions.get('screen').width;
 
 const Photo = props => {
-    const [pickType, setpickType] = useState(null);
-    const [image, setImage] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const animatedValue = React.useRef(new Animated.Value(0)).current;
+  const [pickType, setpickType] = useState(null);
+  const [image, setImage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const animatedValue = React.useRef(new Animated.Value(0)).current;
 
   const getImage = async () => {
     try {
@@ -58,11 +58,10 @@ const Photo = props => {
 
         setShowModal(true);
         Animated.spring(animatedValue, {
-            toValue: 1,
-            delay: 200,
-            useNativeDriver: true,
-          }).start();
-
+          toValue: 1,
+          delay: 200,
+          useNativeDriver: true,
+        }).start();
 
         task.on('state_changed', taskSnapshot => {
           let advancement =
@@ -99,10 +98,10 @@ const Photo = props => {
 
         setShowModal(true);
         Animated.spring(animatedValue, {
-            toValue: 1,
-            delay: 200,
-            useNativeDriver: true,
-          }).start();
+          toValue: 1,
+          delay: 200,
+          useNativeDriver: true,
+        }).start();
 
         task.on('state_changed', taskSnapshot => {
           let advancement =
@@ -132,7 +131,7 @@ const Photo = props => {
   return (
     <View style={styles.container}>
       <View>
-        {image ? (
+        {image && !showModal ? (
           <Image
             source={{uri: image}}
             style={{
@@ -142,6 +141,28 @@ const Photo = props => {
               borderRadius: 20,
             }}
           />
+        ) : image && showModal ? (
+          <View
+            style={{
+              width: WIDTH * 0.7,
+              height: WIDTH * 0.7,
+              borderRadius: 20,
+              alignSelf: 'center',
+              marginTop: 30,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: colors.grey_fade,
+            }}>
+            <ProgressBar
+              progress={progress}
+              width={200}
+              color={colors.primary}
+              borderWidth={1}
+              borderColor={colors.primary}
+              useNativeDriver={true}
+            />
+          </View>
         ) : (
           <Image
             source={require('../../assets/selfie.png')}
@@ -190,44 +211,6 @@ const Photo = props => {
           </Text>
         </TouchableOpacity>
       </View>
-
-      {showModal && (
-        <Animated.View
-          style={{
-            ...styles.modal,
-            transform: [
-              {
-                translateX: animatedValue.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [-WIDTH * 2, 0],
-                }),
-              },
-            ],
-          }}>
-          <TouchableOpacity
-            style={styles.modalQuitButton}
-            activeOpacity={0.8}
-            onPress={() => {
-              setShowModal(false);
-              Animated.spring(animatedValue, {
-                toValue: 0,
-                delay: 80,
-                useNativeDriver: true,
-              }).start();
-            }}>
-            <Ionicons name="close" size={25} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.modalText}>Image uploading status</Text>
-          <ProgressBar
-            progress={progress}
-            width={200}
-            color={colors.primary}
-            borderWidth={1}
-            borderColor={colors.primary}
-            useNativeDriver={true}
-          />
-        </Animated.View>
-      )}
     </View>
   );
 };
@@ -267,7 +250,7 @@ const styles = StyleSheet.create({
     width: WIDTH * 0.9,
     elevation: 10,
     paddingVertical: 20,
-    paddingHorizontal:50,
+    paddingHorizontal: 50,
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -292,12 +275,12 @@ const styles = StyleSheet.create({
     top: 10,
     right: 20,
   },
-  modalText:{
-    fontSize:20,
-    color:"#000",
-    alignSelf:'center',
-    marginBottom:20
-  }
+  modalText: {
+    fontSize: 20,
+    color: '#000',
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
 });
 
 export default Photo;

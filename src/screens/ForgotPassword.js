@@ -30,6 +30,11 @@ const ResetPassword = props => {
     try {
       const response = await auth().sendPasswordResetEmail(email);
       setIsLoading(false);
+      Alert.alert(
+        "Link sent via e-mail",
+        'you will find the link in the spam',
+        [{text: 'ok', style: 'cancel'}],
+      );
       props.navigation.goBack();
     } catch (err) {
       setIsLoading(false);

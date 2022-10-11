@@ -85,7 +85,7 @@ const Register = props => {
       passwordRegex.test(text)
     ) {
       isValid = true;
-    } else if (inputIdentifier == 'fullName') {
+    } else if (inputIdentifier == 'fullName' && text.trim().length > 0) {
       isValid = true;
     }
     dispatchFormState({
@@ -128,11 +128,9 @@ const Register = props => {
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
-        Alert.alert(
-          err.code,
-          'You have to enter a valid e-mail or password',
-          [{text: 'ok', style: 'cancel'}],
-        );
+        Alert.alert(err.code, 'You have to enter a valid e-mail or password', [
+          {text: 'ok', style: 'cancel'},
+        ]);
       }
     } else {
       Alert.alert(
@@ -201,7 +199,8 @@ const Register = props => {
             formState.inputValues.password.length != 0 &&
             formState.inputTuched.password && (
               <Text style={styles.alertText}>
-                You have to enter a password with more than 8 letters, characters and numbers 
+                You have to enter a password with more than 8 letters,
+                characters and numbers
               </Text>
             )}
           <View style={styles.buttonContainer}>
@@ -235,7 +234,7 @@ const Register = props => {
                   fontSize: 13,
                   color: 'white',
                 }}>
-                Connect to your account 
+                Connect to your account
               </Text>
             </TouchableOpacity>
           </View>

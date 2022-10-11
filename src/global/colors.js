@@ -4,7 +4,7 @@ export default {
     primary : "#3357A4",
     yellow : "#EBCF2E",
     primary2 : "#2833f9",
-    info: "#1585db",
+    info: "#B4CDE6",
     // info2 : "#5bc0de",
     danger : "#DB4437",
     grey_fade : "#e2e1df",
