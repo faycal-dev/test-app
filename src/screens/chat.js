@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   Image,
   Text,
   FlatList,
+  Alert,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -15,14 +16,18 @@ import colors from '../global/colors';
 import Ionicons from 'react-native-vector-icons/Feather';
 import storage from '@react-native-firebase/storage';
 import PushNotification from 'react-native-push-notification';
+import { AuthContext } from '../context/context';
 
-const USER = auth().currentUser;
-const reference = storage().ref(`/images/${USER?.uid}.png`);
+
 const WIDTH = Dimensions.get('screen').width;
 
 const Chat = props => {
+  const USER = useContext(AuthContext);
+
+  const reference = storage().ref(`/images/${USER?.uid}.png`);
+
   const [text, setText] = useState('');
-  const [index, setIndex] = useState(-1);
+  // const [index, setIndex] = useState(-1);
   const [messages, setMessages] = useState([]);
   const [image, setImage] = useState(null);
   const flatList = useRef();
@@ -75,11 +80,12 @@ const Chat = props => {
       .orderBy('createdAt')
       .limit(30)
       .onSnapshot(documentSnapshot => {
-        messagesNumber += 1;
-        const data = documentSnapshot.docs.map(
-          doc => doc.data(),
-          //   id: doc.id,
-        );
+        let data = [];
+          messagesNumber += 1;
+          data = documentSnapshot.docs.map(
+            doc => doc.data(),
+            //   id: doc.id,
+          );
         if (messagesNumber > 1) {
           const lastMessage = data[data.length - 1].message;
           PushNotification.localNotification({
@@ -93,17 +99,17 @@ const Chat = props => {
         //   // setIndex(data.length - 1);
         // }
         setMessages(data);
-      });
+      }, console.log('error'));
 
     // Stop listening for updates when no longer required
     return () => subscriber();
   }, []);
 
-  useEffect(() => {
-    if (index !== -1) {
-      flatList.current?.scrollToEnd({ Animated: true});
-    }
-  }, [messages]);
+  // useEffect(() => {
+  //   if (index !== -1) {
+  //     flatList.current?.scrollToEnd({ Animated: true});
+  //   }
+  // }, [messages]);
 
   const renderItem = ({item}) => {
     // console.log(item.message)
@@ -128,7 +134,7 @@ const Chat = props => {
           <Text style={styles.text}>
             {USER?.displayName ? USER.displayName : 'Your profile'}
           </Text>
-          <Text style={styles.smallText}>{USER.email}</Text>
+          <Text style={styles.smallText}>{USER?.email}</Text>
         </View>
       </TouchableOpacity>
       <FlatList

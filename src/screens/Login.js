@@ -235,7 +235,7 @@ const Auth = props => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{marginTop: 40, width: '80%', alignItems: 'center'}}>
+        {/* <View style={{marginTop: 40, width: '80%', alignItems: 'center'}}>
           <Text style={styles.smallerText}>Other connection options</Text>
           <TouchableOpacity
             activeOpacity={0.8}
@@ -252,7 +252,7 @@ const Auth = props => {
             />
             <Text style={styles.mediumText}>Continue with Google</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );

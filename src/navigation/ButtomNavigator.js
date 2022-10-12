@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import auth from '@react-native-firebase/auth';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import {AuthContext} from '../context/context';
 
 const Home = createBottomTabNavigator();
 const AuthNav = createNativeStackNavigator();
@@ -54,9 +55,11 @@ const TabButton = props => {
 
 export default function ButtomNavigator() {
   const [isAuth, setIsAuth] = React.useState(false);
+  const [USER, setUser] = React.useState(null);
   const [initializing, setInitializing] = React.useState(true);
 
   async function onAuthStateChanged(user) {
+    setUser(user);
     if (!user) {
       setIsAuth(false);
     } else {
@@ -75,112 +78,114 @@ export default function ButtomNavigator() {
   return (
     <>
       {isAuth ? (
-        <Home.Navigator>
-          <Home.Screen
-            name="NotificationScreen"
-            component={Notification}
-            options={{
-              title: 'Notification Screen',
-              tabBarShowLabel: false,
-              // tabBarIcon: ({focused, size}) => (
-              //   <Icon
-              //     name={focused ? 'notifications-outline' : 'notifications'}
-              //     color={focused ? colors.primary : colors.silver}
-              //     size={focused ? 30 : 27}
-              //   />
-              // ),
-              tabBarButton: props => (
-                <TabButton
-                  {...props}
-                  item={{
-                    activeIcon: 'notifications',
-                    inActiveIcon: 'notifications-outline',
-                  }}
-                />
-              ),
+        <AuthContext.Provider value={USER}>
+          <Home.Navigator>
+            <Home.Screen
+              name="NotificationScreen"
+              component={Notification}
+              options={{
+                title: 'Notification Screen',
+                tabBarShowLabel: false,
+                // tabBarIcon: ({focused, size}) => (
+                //   <Icon
+                //     name={focused ? 'notifications-outline' : 'notifications'}
+                //     color={focused ? colors.primary : colors.silver}
+                //     size={focused ? 30 : 27}
+                //   />
+                // ),
+                tabBarButton: props => (
+                  <TabButton
+                    {...props}
+                    item={{
+                      activeIcon: 'notifications',
+                      inActiveIcon: 'notifications-outline',
+                    }}
+                  />
+                ),
 
-              headerShown: false,
-            }}
-          />
-          <Home.Screen
-            name="PhotoScreen"
-            component={Photo}
-            options={{
-              title: 'Photo Screen',
-              tabBarShowLabel: false,
-              // tabBarIcon: ({focused, size}) => (
-              //   <Icon
-              //     name={focused ? 'camera-outline' : 'camera'}
-              //     color={focused ? colors.primary : colors.silver}
-              //     size={focused ? 30 : 27}
-              //   />
-              // ),
-              tabBarButton: props => (
-                <TabButton
-                  {...props}
-                  item={{
-                    activeIcon: 'camera',
-                    inActiveIcon: 'camera-outline',
-                  }}
-                />
-              ),
+                headerShown: false,
+              }}
+            />
+            <Home.Screen
+              name="PhotoScreen"
+              component={Photo}
+              options={{
+                title: 'Photo Screen',
+                tabBarShowLabel: false,
+                // tabBarIcon: ({focused, size}) => (
+                //   <Icon
+                //     name={focused ? 'camera-outline' : 'camera'}
+                //     color={focused ? colors.primary : colors.silver}
+                //     size={focused ? 30 : 27}
+                //   />
+                // ),
+                tabBarButton: props => (
+                  <TabButton
+                    {...props}
+                    item={{
+                      activeIcon: 'camera',
+                      inActiveIcon: 'camera-outline',
+                    }}
+                  />
+                ),
 
-              headerShown: false,
-            }}
-          />
-          <Home.Screen
-            name="ChatScreen"
-            component={Chat}
-            options={{
-              title: 'Chat Screen',
-              tabBarShowLabel: false,
-              // tabBarIcon: ({focused, size}) => (
-              //   <Icon
-              //     name={focused ? 'chatbox-outline' : 'chatbox'}
-              //     color={focused ? colors.primary : colors.silver}
-              //     size={focused ? 30 : 27}
-              //   />
-              // ),
-              tabBarButton: props => (
-                <TabButton
-                  {...props}
-                  item={{
-                    activeIcon: 'chatbox',
-                    inActiveIcon: 'chatbox-outline',
-                  }}
-                />
-              ),
+                headerShown: false,
+              }}
+            />
+            <Home.Screen
+              name="ChatScreen"
+              component={Chat}
+              options={{
+                title: 'Chat Screen',
+                tabBarShowLabel: false,
+                // tabBarIcon: ({focused, size}) => (
+                //   <Icon
+                //     name={focused ? 'chatbox-outline' : 'chatbox'}
+                //     color={focused ? colors.primary : colors.silver}
+                //     size={focused ? 30 : 27}
+                //   />
+                // ),
+                tabBarButton: props => (
+                  <TabButton
+                    {...props}
+                    item={{
+                      activeIcon: 'chatbox',
+                      inActiveIcon: 'chatbox-outline',
+                    }}
+                  />
+                ),
 
-              headerShown: false,
-            }}
-          />
-          <Home.Screen
-            name="CalculatorScreen"
-            component={Calculator}
-            options={{
-              title: 'Calculator Screen',
-              tabBarShowLabel: false,
-              // tabBarIcon: ({focused, size}) => (
-              //   <Icon
-              //     name={focused ? 'calculator-outline' : 'calculator'}
-              //     color={focused ? colors.primary : colors.silver}
-              //     size={focused ? 30 : 27}
-              //   />
-              // ),
-              tabBarButton: props => (
-                <TabButton
-                  {...props}
-                  item={{
-                    activeIcon: 'calculator',
-                    inActiveIcon: 'calculator-outline',
-                  }}
-                />
-              ),
+                headerShown: false,
+              }}
+            />
+            <Home.Screen
+              name="CalculatorScreen"
+              component={Calculator}
+              options={{
+                title: 'Calculator Screen',
+                tabBarShowLabel: false,
+                // tabBarIcon: ({focused, size}) => (
+                //   <Icon
+                //     name={focused ? 'calculator-outline' : 'calculator'}
+                //     color={focused ? colors.primary : colors.silver}
+                //     size={focused ? 30 : 27}
+                //   />
+                // ),
+                tabBarButton: props => (
+                  <TabButton
+                    {...props}
+                    item={{
+                      activeIcon: 'calculator',
+                      inActiveIcon: 'calculator-outline',
+                    }}
+                  />
+                ),
 
-              headerShown: false,
-            }}
-          />
-        </Home.Navigator>
+                headerShown: false,
+              }}
+            />
+          </Home.Navigator>
+        </AuthContext.Provider>
       ) : (
         <AuthNav.Navigator>
           <AuthNav.Screen

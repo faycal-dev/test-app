@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 import colors from '../global/colors';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 GoogleSignin.configure({
   webClientId:
@@ -108,6 +110,25 @@ const Register = props => {
     return auth().signInWithCredential(googleCredential);
   }
 
+  const sendText = async () => {
+    const date = new Date();
+    let data = {
+      message: "Write a message",
+      time: `${date.toISOString().split('T')[0]} ${
+        date.toISOString().split('T')[1].split('.')[0]
+      }`,
+      createdAt: date,
+    };
+    try {
+      USER = auth().currentUser
+      await firestore().collection(USER?.uid).add(data);
+    } catch (error) {
+      Alert.alert(error.code, 'Verify your connection', [
+        {text: 'ok', style: 'cancel'},
+      ]);
+    }
+  };
+
   const loginHandler = async () => {
     if (formState.formIsValid) {
       setIsLoading(true);
@@ -125,6 +146,7 @@ const Register = props => {
         //   handleCodeInApp: true,
         //   url: 'https://nordestone-test.firebaseapp.com',
         // });
+        sendText()
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
@@ -239,7 +261,7 @@ const Register = props => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{marginTop: 40, width: '80%', alignItems: 'center'}}>
+        {/* <View style={{marginTop: 40, width: '80%', alignItems: 'center'}}>
           <Text style={styles.smallerText}>Other connection options</Text>
           <TouchableOpacity
             activeOpacity={0.8}
@@ -260,7 +282,7 @@ const Register = props => {
             />
             <Text style={styles.mediumText}>Continue with Google</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );

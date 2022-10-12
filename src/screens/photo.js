@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -15,13 +15,17 @@ import colors from '../global/colors';
 import storage from '@react-native-firebase/storage';
 import auth from '@react-native-firebase/auth';
 import ProgressBar from 'react-native-progress/Bar';
+import { AuthContext } from '../context/context';
 
-const UID = auth().currentUser?.uid;
-const reference = storage().ref(`/images/${UID}.png`);
+
 
 const WIDTH = Dimensions.get('screen').width;
 
 const Photo = props => {
+  const USER = useContext(AuthContext);
+  const UID = USER?.uid;
+  const reference = storage().ref(`/images/${UID}.png`);
+
   const [pickType, setpickType] = useState(null);
   const [image, setImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
